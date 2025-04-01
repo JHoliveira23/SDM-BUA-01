@@ -14,7 +14,15 @@ app.post("/usuarios", (req, res) => {
     res.send({message: "Usuario cadastrado com sucesso", usuario})
 })
 
-app.get("/dados", (req,res) => {
-    res.send({usuarios})
+app.post("/pedidos", (req, res) => {
+    const pedido = req.body;
+    pedidos.push(pedido)
+    res.send({message: "Pedido criado", pedido})
 })
+
+app.get("/dados", (req,res) => {
+    res.send({usuarios, pedidos})
+})
+
 app.listen(3000, () => console.log("Servidor monolítico ok, na porta 3000"))
+app.listen(4000, () => console.log("Servidor monolítico ok, na porta 4000"))
