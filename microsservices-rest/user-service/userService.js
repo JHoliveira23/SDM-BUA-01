@@ -5,6 +5,8 @@ const app = express();
 
 app.use(express.json());
 
+
+
 app.post('/usuarios', async (req, res) => {
     const usuario = req.body;
 
