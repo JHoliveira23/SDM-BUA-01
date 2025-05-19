@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Painel da Cozinha</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Pedidos Novos:</h1>
+  <ul id="lista-pedidos"></ul>
+
+  <script>
+    // Cria uma conexão WebSocket com o servidor localizado em http://localhost:3000
+    const socket = io("http://localhost:3000");
+
+    // Evento disparado quando a conexão WebSocket é bem-sucedida
+    socket.on("connect", () => {
+      console.log("Conectado com ID:", socket.id);
+    });
+
+    // Quando um novo pedido chega
+    socket.on("novo_pedido", (pedido) => {
+      const li = document.createElement("li");
+      li.id = `pedido-${pedido.id}`;
+
+      const texto = document.createElement("span");
+      texto.textContent = `Mesa ${pedido.mesa}: ${pedido.itens.join(", ")}`;
+
+      // Cria o botão "Marcar como pronto"
+      const botao = document.createElement("button");
+      botao.textContent = "Marcar como pronto";
+
+      // Ao clicar no botão, marca o pedido como pronto e envia para o servidor
+      botao.onclick = () => {
+        li.classList.add("pronto"); // Adiciona uma classe CSS para estilo
+        botao.remove(); // Remove o botão após clicar
+
+        // Exibe um texto indicando que o pedido foi finalizado
+        const textoPronto = document.createElement("span");
+        textoPronto.textContent = " - Pedido pronto!";
+        li.appendChild(textoPronto);
+
+        // Envia o evento para o servidor
+        socket.emit("pedido_pronto", { id: pedido.id });
+      };
+
+      li.appendChild(texto);
+      li.appendChild(botao);
+      document.getElementById("lista-pedidos").appendChild(li);
+    });
+  </script>
+</body>
+</html>
