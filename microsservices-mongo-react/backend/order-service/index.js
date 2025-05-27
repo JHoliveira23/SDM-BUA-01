@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require('cors');
 
 const app = express();
+app.use(express.json());
 
+// Habilita CORS para localhost:3000 (frontend React)
+app.use(cors({ origin: "http://localhost:3000"}))
 // Conexão mongo Atlas
 
 const mongoUri = "mongodb+srv://jotaagaacademico822154533:usjt*2025@sdm-bua.dypaiwh.mongodb.net/orderservice?retryWrites=true&w=majority&appName=sdm-bua";

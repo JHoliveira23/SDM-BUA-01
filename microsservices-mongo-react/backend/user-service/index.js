@@ -1,11 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require ('mongoose');
-
+const cors = require("cors") //importa o CORS
 const app = express();
 
-// Conexão mongo Atlas
 
+app.use(express.json());
+
+// Habilita CORS para localhost:3000 (frontend React)
+app.use(cors({ origin: "http://localhost:3000"}))
+
+
+// Conexão mongo Atlas
 const mongoUri = "mongodb+srv://jotaagaacademico822154533:usjt*2025@sdm-bua.dypaiwh.mongodb.net/orderservice?retryWrites=true&w=majority&appName=sdm-bua";
 mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
@@ -88,4 +94,4 @@ app.post("/usuarios", async (req, res) => {
     }
   });
   
-  app.listen(3000, () => console.log("User-Service rodando na porta 3000"));
+  app.listen(3002, () => console.log("User-Service rodando na porta 3002"));
